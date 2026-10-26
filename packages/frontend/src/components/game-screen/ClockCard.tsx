@@ -31,9 +31,12 @@ function ClockCard({
     const paddingClassName = hasPlayerMarker
         ? `px-2 py-1.5 sm:px-2.5 sm:py-2`
         : `px-2.5 py-1.5 sm:px-3 sm:py-2`;
-
+    const graceTimerMargin = hasPlayerMarker
+		? `-my-1.5 sm:-my-2`
+		: `-my-1.5 sm:-my-2`;
+    
     const value = valueLabel ?? 
-        ((graceTimer && timeMs) ? formatMinutesSeconds(timeMs - graceTimer) : formatMinutesSeconds(timeMs));
+        ((graceTimer && timeMs) ? formatMinutesSeconds(timeMs - graceTimer) : formatMinutesSeconds(timeMs, undefined, timeMs !== null && timeMs < 10_000));
 
     // bg-slate-800/60  bg-emerald-400/12
     return (
@@ -74,7 +77,7 @@ function ClockCard({
                             )}>
                             <span
                                 className ={`text-slate-400 text-[0.4rem] sm:text-[0.5rem] m-0`}
-                            >{timeMs ? formatMinutesSeconds(timeMs - graceTimer) : null}</span>
+                            >{timeMs ? formatMinutesSeconds(timeMs - graceTimer, undefined, timeMs !== null && timeMs - graceTimer < 10_000) : null}</span>
                             <span
                                 className ={`shrink-0 text-[0.6rem] font-black tabular-nums leading-none sm:text-xs ${isHighlighted || isTimeEmphasized ? `text-emerald-100` : `text-white`}`}
                             >{formatMinutesSeconds(graceTimer)}</span>
